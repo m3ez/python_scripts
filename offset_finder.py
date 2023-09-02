@@ -17,6 +17,7 @@ def find_offset(binary_path):
             # Determine the stack pointer register based on the architecture
             stack_ptr_register = 'rsp' if elf.bits == 64 else 'esp'
             offset = cyclic_find(core.read(getattr(core, stack_ptr_register), 8), n=8)
+
         except:
             p.close()
             p = process([binary_path,cyclic(1000, n=8)])
@@ -38,7 +39,7 @@ def main():
     offset = find_offset(binary_path)
 
     if offset is not None:
-        log.success("Offset: {}".format(offset))
+        log.success("EIP/RIP Offset: {}".format(offset))
     else:
         log.error("Offset detection failed.")
 
